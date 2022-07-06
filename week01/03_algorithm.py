@@ -10,12 +10,10 @@ def solution(new_id):
             break
     new_id=copied_new_id
     #step3. '.' deduplication
-    i=0
-    while i != len(new_id)-1:
-        if new_id[i]==new_id[i+1]:
-            del new_id[i]
-            continue
-        i+=1
+    new_id = "".join(new_id)
+    while ".." in new_id:
+        new_id = new_id.replace('..','.')
+    new_id=list(new_id)
     #step4. remvove first '.'
     if new_id[0]=='.':
         new_id.remove('.')
