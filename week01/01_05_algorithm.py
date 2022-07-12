@@ -1,52 +1,38 @@
 def solution(numbers, hand):
-    answer = ''
-    pad_row=[[1,2,3],[4,5,6],[7,8,9],['*',0,'#']]
-    pad_col=[[1,4,7,'*'],[3,6,9,'#'],[2,5,8,0]]
-    number_location=[]
-    left_hand=0
-    right_hand=0
-    left_xy=[]
-    right_xy=[] 
-    input_xy=[]
-    
+    number_dict ={
+        1:(0,0),2:(0,1),3:(0,2),
+        4:(1,0),5:(1,1),6:(1,2),
+        7:(2,0),8:(2,1),9:(2,2),
+        '*':(3,0),0:(3,1),'#':(3,2)
+        }
+    answer=''
+    left_dist=0
+    right_dist=0
+    #[0]left, [1]right
+    thumb=['*','#']
     for input_num in numbers:
-        for col_index,j in enumerate(pad_col):
-            if input_num in j:
-                if col_index == 0:
-                    left_hand=input_num
+        if input_num in [1,4,7]:
+            thumb[0]=input_num
+            answer+='L'
+        elif input_num in [3,6,9]:
+            thumb[1]=input_num
+            answer+='R'
+        else:
+            left_dist = (abs(number_dict[thumb[0]][0] - number_dict[input_num][0]) + abs(number_dict[thumb[0]][1] - number_dict[input_num][1]))
+            
+            right_dist = (abs(number_dict[thumb[1]][0]-number_dict[input_num][0]) + abs(number_dict[thumb[1]][1] - number_dict[input_num][1]))
+            print(f"{left_dist} {right_dist}")
+            if left_dist==right_dist:
+                if hand=='left':
+                    thumb[0]=input_num
                     answer+='L'
-                if col_index == 1:
-                    right_hand=input_num
+                else:
+                    thumb[1]=input_num
                     answer+='R'
-                if col_index == 2:
-                    for ii,row in enumerate(pad_row):
-                        for jj,number in enumerate(row):
-                            if input_num==number or str(right_hand)==number:
-                                input_xy=[ii,jj]
-                                break
-                    for ii,row in enumerate(pad_row):
-                        for jj,number in enumerate(row):
-                            if left_hand==number or str(right_hand)==number:
-                                left_xy=[ii,jj]
-                                break
-                    for ii,row in enumerate(pad_row):
-                        for jj,number in enumerate(row):
-                            if right_hand==number or str(right_hand)==number:
-                                right_xy=[ii,jj]
-                                break
-                    a=abs(left_xy[0]-input_xy[0])+abs(left_xy[1]-input_xy[1])
-                    b=abs(right_xy[0]-input_xy[0])+abs(right_xy[1]-input_xy[1])
-                    if a == b:
-                        if hand=='left':
-                            left_hand=input_num
-                            answer+='L'
-                        else:
-                            right_hand=input_num
-                            answer+='R'
-                    elif a < b:
-                        left_hand=input_num
-                        answer+='L'
-                    else:
-                        right_hand=input_num
-                        answer+='R'
+            elif left_dist < right_dist:
+                thumb[0]=input_num
+                answer+='L'
+            else:
+                thumb[1]=input_num
+                answer+='R'
     return answer
