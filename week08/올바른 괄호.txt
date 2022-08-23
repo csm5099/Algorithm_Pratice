@@ -1,0 +1,8 @@
+def solution(s):
+    stack = []
+    for i in s:
+        stack.append(i)
+        if len(stack)>=2 and stack[len(stack)-2]=='(' and i ==')':
+            stack.pop()
+            stack.pop()
+    return True if stack==[] else False
