@@ -12,12 +12,12 @@ def solution(queue1, queue2):
         if sum1 == sum2:
             return cnt
         if sum1 > sum2:
-            tmp = q1.pop(0)
+            tmp = q1.popleft()
             q2.append(tmp)
             sum1 -= tmp
             sum2 += tmp
         else:
-            tmp = q2.pop(0)
+            tmp = q2.popleft()
             q1.append(tmp)
             sum2 -= tmp
             sum1 += tmp
